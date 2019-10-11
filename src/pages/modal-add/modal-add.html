@@ -1,0 +1,65 @@
+
+<ion-header>
+
+  <modal-header pageTitle="Add Sensor"></modal-header>
+
+</ion-header>
+
+<input
+  style="display: none"
+  type="file" (change)="onFileChanged($event)"
+  #fileInput>
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <ion-grid >
+        <ion-row align-items-center>
+          <ion-col>
+          Sensor Name
+          </ion-col>
+          <ion-col >
+            <ion-input type="text" placeholder="Input Name" [(ngModel)]="sensor.name"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            Sensor Image
+          </ion-col>
+          <ion-col>
+                <ion-img [src]="sensor.avatar" (click)="fileInput.click()"></ion-img>
+          </ion-col>
+        </ion-row>
+
+        <ion-row align-items-center>
+          <ion-col>
+            Sensor Length /(m)
+          </ion-col>
+          <ion-col>
+            <ion-input type="number" placeholder="Input Name123" [(ngModel)]="sensor.length"> </ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row align-items-center>
+          <ion-col>
+            Sensor Width /(m)
+          </ion-col>
+          <ion-col>
+            <ion-input type="number" placeholder="Input Name666" [(ngModel)]="sensor.length"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row justify-content-center>
+          <button ion-button class="done-button" (click)="submit()">Done</button>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="ifError">
+    <ion-card-content>
+      <h2><span id="error_text">{{errorMessage[0]}}</span>{{errorMessage[1]}}</h2>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,4 +1,4 @@
-page-modal-catalog {
+page-modal-management {
   .app-name {
     width: 7vw;
     height: 7vw;
@@ -19,9 +19,8 @@ page-modal-catalog {
     box-shadow: none;
   }
   .card-md {
-    padding:0;
-    box-shadow: none;
-  }
+    -webkit-box-shadow:none;
+    box-shadow: none;}
 
 #error_text{
   color:red;

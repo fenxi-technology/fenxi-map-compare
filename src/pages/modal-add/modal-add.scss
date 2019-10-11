@@ -1,4 +1,4 @@
-page-modal-catalog {
+page-modal-add {
   .app-name {
     width: 7vw;
     height: 7vw;
@@ -10,17 +10,11 @@ page-modal-catalog {
     height: 5vw;
     background-color: white;
   }
-
- /* .searchbar-md .searchbar-input{
-    box-shadow: none;
-
-  }*/
-  ion-label{
-    box-shadow: none;
-  }
-  .card-md {
-    padding:0;
-    box-shadow: none;
+  ion-img {
+    display: inline-block;
+    min-width: 7vw;;
+    min-height: 5vw;
+    background: #eee;
   }
 
 #error_text{

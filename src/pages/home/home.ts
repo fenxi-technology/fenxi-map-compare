@@ -67,4 +67,13 @@ export class HomePage {
     modal.present();
   }
 
+  presentAddModal() {
+    let modal = this.modalCtrl.create('ModalAddPage');
+    modal.present();
+  }
+  presentModalManagement() {
+    let modal = this.modalCtrl.create('ModalManagementPage');
+    modal.present();
+  }
+
 }
