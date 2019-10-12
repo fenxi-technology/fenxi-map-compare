@@ -29,7 +29,7 @@ export class ModalManagementPage {
   errorMessage: Array<string>; //it is an array, so that messages with a HTTP failure will be shown with the red color word "Error"
                                // in the beginning and other messages just in black color without word "Error"
   ifError: boolean;
-  data:any = [
+  appData:any = [
     /*  {id:0,name:'sensor1', length:"12m", category:0, description:'xxxxxdescription',imgUrl:"https://sensor-manager.jit-systems.de/images/inspectorp65x.png"},
       {id:1,name:'sensor2', length:"12m", category:1, description:'xxxxx',imgUrl:"https://sensor-manager.jit-systems.de/images/TBS-1DSGT1006NE.png"},
       {id:2,name:'sensor3', length:"12m", category:0, description:'xxxxx',imgUrl:"https://sensor-manager.jit-systems.de/images/TBS-1DSGT1006NE.png"},
@@ -46,6 +46,11 @@ export class ModalManagementPage {
     {id:6, name: "W150 Proximity", url: "https://sensor-manager.jit-systems.de/w150", status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/w150.png", previewPosition: "left", description:"xxxxxdescription"},
     {id:7, name: "Safety Barrier Sensor", url: "https://sensor-manager.jit-systems.de/c4000advanced", status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/c4000advanced.png", previewPosition: "left", description:"xxxxxdescription"},
   ];
+  data=this.appData;
+  types: any=[{label:"Metal A",checked:false,value:0},
+    {label:"Metal B",checked:false,value:1},
+    {label:"Metal C",checked:false,value: 2}];
+
   //the constructor is executed only once, i.e. after the app starts
   constructor(public sanitizer: DomSanitizer,
               private dataProvider: HttpDataProvider,
@@ -69,7 +74,7 @@ export class ModalManagementPage {
       this.urlRegistry = newUrl;
       console.log("process event of changed url in localstorage");
     });
-
+    this.getAllItems();
   }
 
   // this method is executed after each loading of this page
@@ -140,5 +145,19 @@ export class ModalManagementPage {
   presentAddModal() {
     let modal = this.modalCtrl.create('ModalAddPage');
     modal.present();
+  }
+
+  getAllItems(){
+    return this.appData;
+
+  }
+  getItems(event) {
+    this.data= this.getAllItems();
+    var val = event.target.value;
+    if (val && val.trim() != '') {
+      this.data = this.data.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
   }
 }
