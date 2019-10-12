@@ -119,12 +119,6 @@ export class ModalManagementPage {
 
   getData() {
   }
-
-  getItems($event: Event) {
-
-  }
-
-
   onHold($event: Event,id) {
     alert("长按itemid:"+id+", 确认删除？");
     this.delSensor(id);
