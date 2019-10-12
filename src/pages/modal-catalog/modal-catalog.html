@@ -11,38 +11,18 @@
   <ion-card>
     <ion-searchbar showCancelButton="always" (input)="getItems($event)" ></ion-searchbar>
     <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-checkbox color="primary" ></ion-checkbox> <ion-label>Metal A</ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-checkbox color="primary"></ion-checkbox> <ion-label>Metal B</ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-checkbox color="primary"></ion-checkbox> <ion-label >Metal C</ion-label>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let item of categorys">
+        <ion-item >
+          <ion-checkbox color="primary" [(ngModel)]="item.checked" (ionChange)="getItemsByCategory($event,item)"></ion-checkbox>
+          <ion-label>{{item.label}}</ion-label>
+        </ion-item>
+        </ion-col>
+      </ion-row>
 
-<!--      <ion-row>
-
-        <button ion-button class="done-button" (click)="submit()">Done</button>
-
-      </ion-row>-->
-      </ion-grid>
+    </ion-grid>
   </ion-card>
   <ion-list>
-<!--
-    <ion-card class="app-name" onmouseover="style.fontWeight='bold'" onmouseout="style.fontWeight='normal'"
-              (click)="addApp(i)" [style.border]="appClicked[i]? ' thick solid gray':''">
-      [style.border]="appClicked[item.id]? ' thick solid gray':''"
--->
-
 
     <ng-container *ngFor="let item of data, index as i">
       <ion-item (click)="addApp(i)"  [style.border]="appClicked[i]? ' thick solid gray':''" >
@@ -51,11 +31,11 @@
         </ion-avatar>
         <h2>{{item.name}}</h2>
         <p>{{item.description}}</p>
-        <p item-end>{{item.category?'metal A':'metal B'}}</p>
+        <p item-end>{{item.categoryText}}</p>
       </ion-item>
     </ng-container>
   </ion-list>
   <div style="text-align:center">
-  <button ion-button class="done-button"  (click)="submit()">Done</button></div>
+    <button ion-button class="done-button"  (click)="submit()">Done</button></div>
 
 </ion-content>

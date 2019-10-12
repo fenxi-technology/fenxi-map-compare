@@ -12,14 +12,15 @@
     <ion-searchbar showCancelButton="always" (input)="getItems($event)" ></ion-searchbar>
 
     <ion-grid>
-      <ion-list>
-        <ion-item *ngFor="let item of categorys">
+      <ion-row>
+        <ion-col *ngFor="let item of categorys">
+        <ion-item >
           <ion-checkbox color="primary" [(ngModel)]="item.checked" (ionChange)="getItemsByCategory($event,item)"></ion-checkbox>
           <ion-label>{{item.label}}</ion-label>
         </ion-item>
-      </ion-list>
-      <ion-list>
-      </ion-list>
+        </ion-col>>
+
+      </ion-row>
   <!--    <ion-row>
         <ion-col>
           <ion-item>

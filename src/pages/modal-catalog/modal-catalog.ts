@@ -5,6 +5,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {HttpDataProvider} from "../../providers/http-data/http-data";
 import {Subscription} from "rxjs/Subscription";
 import {SharedLocalStorageProvider} from "../../providers/localstorageservice/sharedlocalstorage";
+import {debug} from "ngx-store/src/config";
 
 /**
  * Generated class for the ModalCatalogPage page.
@@ -29,23 +30,20 @@ export class ModalCatalogPage {
   errorMessage: Array<string>; //it is an array, so that messages with a HTTP failure will be shown with the red color word "Error"
                                // in the beginning and other messages just in black color without word "Error"
   ifError: boolean;
-  data:any = [
-  /*  {id:0,name:'sensor1', length:"12m", category:0, description:'xxxxxdescription',imgUrl:"http://localhost:8081/images/inspectorp65x.png"},
-    {id:1,name:'sensor2', length:"12m", category:1, description:'xxxxx',imgUrl:"http://localhost:8081/images/TBS-1DSGT1006NE.png"},
-    {id:2,name:'sensor3', length:"12m", category:0, description:'xxxxx',imgUrl:"http://localhost:8081/images/TBS-1DSGT1006NE.png"},
-    {id:3,name:'sensor4', length:"12m", category:0, description:'xxxxx',imgUrl:"http://localhost:8081/images/TBS-1DSGT1006NE.png"},
-    {id:4,name:'sensor5', length:"12m", category:1, description:'xxxxx',imgUrl:"http://localhost:8081/images/inspectorp65x.png"},
-    {id:5,name:'sensor26', length:"12m",category:1, description:'xxxxx',imgUrl:"http://localhost:8081/images/inspectorp65x.png"}
-  */
-    {name: "Wire Sensor", url: "http://localhost:8081/inspectorp65x", status: 1, imgUrl: "http://localhost:8081/images/inspectorp65x.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "Air Quality Sensor", url: "http://localhost:8081/sb30", status: 1, imgUrl: "http://localhost:8081/images/sb30.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "Diameter Sensor", url: "http://localhost:8081/diameter", status: 1, imgUrl: "http://localhost:8081/images/inspectorp65x.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "Safety Area Sensor", url: "http://localhost:8081/s3000", status: 1, imgUrl: "http://localhost:8081/images/s3000.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "Safety Barrier Sensor", url: "http://localhost:8081/c4000advanced", status: 1, imgUrl: "http://localhost:8081/images/c4000advanced.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "TBS Temperature", url: "http://localhost:8081/TBS-1DSGT1006NE", status: 1, imgUrl: "http://localhost:8081/images/TBS-1DSGT1006NE.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "W150 Proximity", url: "http://localhost:8081/w150", status: 1, imgUrl: "http://localhost:8081/images/w150.png", previewPosition: "left", description:"xxxxxdescription"},
-    {name: "Safety Barrier Sensor", url: "http://localhost:8081/c4000advanced", status: 1, imgUrl: "http://localhost:8081/images/c4000advanced.png", previewPosition: "left", description:"xxxxxdescription"},
-];
+  appData: any = [
+    {id:0, name: "Wire Sensor", url: "https://sensor-manager.jit-systems.de/inspectorp65x", category:0, categoryText:"Metal A",  status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/inspectorp65x.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:1, name: "Air Quality Sensor", url: "https://sensor-manager.jit-systems.de/sb30", category:0,categoryText:"Metal A",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/sb30.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:2, name: "Diameter Sensor", url: "https://sensor-manager.jit-systems.de/diameter", category:0,categoryText:"Metal A",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/inspectorp65x.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:3, name: "Safety Area Sensor", url: "https://sensor-manager.jit-systems.de/s3000", category:1,categoryText:"Metal B",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/s3000.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:4, name: "Safety Barrier Sensor", url: "https://sensor-manager.jit-systems.de/c4000advanced",category:1 ,categoryText:"Metal B",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/c4000advanced.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:5, name: "TBS Temperature", url: "https://sensor-manager.jit-systems.de/TBS-1DSGT1006NE", category:1,categoryText:"Metal B",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/TBS-1DSGT1006NE.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:6, name: "W150 Proximity", url: "https://sensor-manager.jit-systems.de/w150", status: 1,category:2,categoryText:"Metal C", imgUrl: "https://sensor-manager.jit-systems.de/images/w150.png", previewPosition: "left", description:"xxxxxdescription"},
+    {id:7, name: "Safety Barrier Sensor", url: "https://sensor-manager.jit-systems.de/c4000advanced", category:2,categoryText:"Metal C",status: 1, imgUrl: "https://sensor-manager.jit-systems.de/images/c4000advanced.png", previewPosition: "left", description:"xxxxxdescription"},
+
+  ];
+  data=this.appData;
+  categorys: any=[{label:"Metal A",checked:false,value:0}, {label:"Metal B",checked:false,value:1}, {label:"Metal C",checked:false,value: 2}];
+  kinds: Array<number>;
 
   //the constructor is executed only once, i.e. after the app starts
   constructor(public sanitizer: DomSanitizer,
@@ -73,12 +71,14 @@ export class ModalCatalogPage {
     for (let i = 0; i < this.data.length; i++) {
       this.appClicked[i] = false;
     }
+    this.getAllItems();
+    this.kinds=[];
   }
 
   // this method is executed after each loading of this page
   ionViewDidLoad() {
     console.log('ionViewDidLoad ModalCatalogPage');
-   this.apps= this.sharedLocalStorageProvider.objToArrayOfApps(this.data);
+    this.apps = this.sharedLocalStorageProvider.objToArrayOfApps(this.data);
   }
 
   show() {
@@ -103,13 +103,12 @@ export class ModalCatalogPage {
   }
 
 
- submit() {
+  submit() {
     if (this.appClicked != undefined) {
       for (let i = 0; i < this.appClicked.length; i++) {
         if (this.appClicked[i]) {
           console.log("show " + i + "-th app on the map");
           //拼app
-
 
 
           this.sharedLocalStorageProvider.setChosenAppsByIndex(i, this.apps[i]);
@@ -187,24 +186,52 @@ export class ModalCatalogPage {
     });
   }
 
-  onHold($event: Event,id) {
+  onHold($event: Event, id) {
     this.appClicked[id] = !this.appClicked[id];
 
   }
+
   //pan
   onSlide(id: number | string | ArrayBuffer | any) {
     alert(id);
   }
 
   delSensor(id) {
-      for (var i = 0; i < this.data.length; i++) {
-        if (id === this.data[i].id) {
-          this.data.splice(i, 1);
-        }
+    for (var i = 0; i < this.data.length; i++) {
+      if (id === this.data[i].id) {
+        this.data.splice(i, 1);
+      }
     }
   }
 
-  getItems($event: Event) {
+  getAllItems(){
+    return this.appData;
 
+  }
+  getItems(event) {
+    this.data= this.getAllItems();
+    var val = event.target.value;
+    if (val && val.trim() != '') {
+      this.data = this.data.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  getItemsByCategory(event,category) {
+    this.data= this.getAllItems();
+    if(category.checked){
+      if(! (this.kinds.indexOf(category.value)>-1))
+        this.kinds.push(category.value);
+    }else{
+      this.kinds = this.kinds.filter((item) => {
+        return (item !=category.value);
+      })
+    }
+    if(this.kinds.length>0){
+      this.data = this.data.filter((item) => {
+        return (this.kinds.indexOf(item.category)>-1);
+      })
+    }
   }
 }
