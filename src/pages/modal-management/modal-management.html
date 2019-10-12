@@ -12,10 +12,18 @@
     <ion-searchbar showCancelButton="always" (input)="getItems($event)" ></ion-searchbar>
 
     <ion-grid>
-      <ion-row>
+      <ion-list>
+        <ion-item *ngFor="let item of categorys">
+          <ion-checkbox color="primary" [(ngModel)]="item.checked" (ionChange)="getItemsByCategory($event,item)"></ion-checkbox>
+          <ion-label>{{item.label}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+      </ion-list>
+  <!--    <ion-row>
         <ion-col>
           <ion-item>
-            <ion-checkbox color="primary" ></ion-checkbox> <ion-label>Metal A</ion-label>
+            <ion-checkbox color="primary" (ionChange)="getItemsByCatalog($event,type.value,type.checked)"></ion-checkbox> <ion-label>Metal A</ion-label>
           </ion-item>
         </ion-col>
         <ion-col>
@@ -28,7 +36,7 @@
             <ion-checkbox color="primary"></ion-checkbox> <ion-label >Metal C</ion-label>
           </ion-item>
         </ion-col>
-      </ion-row>
+      </ion-row>-->
 
 
     </ion-grid>
@@ -46,7 +54,7 @@
         </ion-avatar>
         <h2>{{item.name}}</h2>
         <p>{{item.description}}</p>
-        <p item-end>{{item.category?'metal A':'metal B'}}</p>
+        <p item-end>{{item.categoryText}}</p>
       </ion-item>
     </ng-container>
   </ion-list>
