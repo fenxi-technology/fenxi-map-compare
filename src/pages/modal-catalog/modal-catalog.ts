@@ -220,6 +220,7 @@ export class ModalCatalogPage {
 
   getItemsByCategory(event,category) {
     this.data= this.getAllItems();
+    console.log("getItemsByCategory-----success");
     if(category.checked){
       if(! (this.kinds.indexOf(category.value)>-1))
         this.kinds.push(category.value);

@@ -151,6 +151,7 @@ export class ModalManagementPage {
   }
 
   getItemsByCategory(event,category) {
+    console.log("getItemsByCategory-----success");
     this.data= this.getAllItems();
     if(category.checked){
       if(! (this.kinds.indexOf(category.value)>-1))

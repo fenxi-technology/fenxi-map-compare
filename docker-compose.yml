@@ -5,7 +5,7 @@ services:
         image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-kit-production-map-app:1.1
         build: .
         ports:
-          - "51100:80"
+          - "5100:80"
         restart: always
         environment:
             - VIRTUAL_HOST=sensor-map.jit-systems.de # example jitcloud.de
